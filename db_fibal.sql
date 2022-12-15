@@ -77,3 +77,20 @@ FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
 ------------------------------------------------------------------------
+
+CREATE TABLE "original_data" (
+  "id" SERIAL PRIMARY KEY,
+  "tex_content" text,
+  "chpater" integer,
+  "textbook" varchar,
+  "page" integer,
+  "isbn_10" varchar,
+  "isbn_13" varchar,
+  "created_at" timestamp DEFAULT (now()),
+  "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON original_data
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
