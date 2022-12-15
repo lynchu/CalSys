@@ -1,0 +1,54 @@
+// -- LEVEL 1
+// -- Schemas, Tables and References
+
+// Creating tables
+// You can define the tables with full schema names
+
+table questions as Q {
+    id              serial [pk, increment]
+    tex_content     text
+    created_at      timestamp [default: `now()`]
+    updated_at      timestamp
+}
+
+table textbooks as B {
+    id              serial [pk, increment]
+    book_name       varchar
+    isbn_10         varchar
+    isbn_13         varchar
+    created_at      timestamp [default: `now()`]
+    updated_at      timestamp
+}
+
+table chapters as C {
+    chapter         integer [pk, unique, not null]
+    chapter_name    varchar
+    created_at      timestamp [default: `now()`]
+    updated_at      timestamp
+}
+
+// Creating references
+// You can also define relaionship separately
+// > many-to-one; < one-to-many; - one-to-one; <> many-to-many
+
+table question_chapter as QC {
+    id              serial [pk, increment]
+    question_id     integer [ref: <> Q.id]
+    chapter         integer [ref: <> C.chapter]
+    created_at      timestamp [default: `now()`]
+    updated_at      timestamp
+}
+
+table question_textbook as QB {
+    id              serial [pk, increment]
+    question_id     integer [ref: <> Q.id]
+    textbook_id     integer [ref: <> B.id]
+    page            integer
+    created_at      timestamp [default: `now()`]
+    updated_at      timestamp
+}
+
+//----------------------------------------------//
+
+// -- LEVEL 2
+// -- Adding column settings
