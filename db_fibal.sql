@@ -44,7 +44,7 @@ CREATE TABLE "question_textbook" (
   "id" SERIAL PRIMARY KEY,
   "question_id" integer references questions(id),
   "textbook_id" integer references textbooks(id),
-  -- "page" integer,
+  "page" integer,
   -- "edition" varchar,
   "created_at" timestamp DEFAULT (now()),
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
