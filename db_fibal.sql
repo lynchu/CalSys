@@ -76,9 +76,4 @@ BEFORE UPDATE ON question_textbook
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
-CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON chapters
-FOR EACH ROW
-EXECUTE PROCEDURE trigger_set_timestamp();
-
 ------------------------------------------------------------------------
