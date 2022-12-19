@@ -12,8 +12,14 @@ $$ LANGUAGE plpgsql;
 CREATE TABLE "questions" (
   "id" SERIAL PRIMARY KEY,
   "tex_content" text,
+  "difficulty" text,
   "created_at" timestamp DEFAULT (now()),
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE "skills" (
+  "id" SERIAL PRIMARY KEY,
+  "skill_name" text
 );
 
 CREATE TABLE "textbooks" (
@@ -26,7 +32,7 @@ CREATE TABLE "textbooks" (
 );
 
 CREATE TABLE "chapters" (
-  "chapter" integer UNIQUE PRIMARY KEY NOT NULL,
+  "id" integer UNIQUE PRIMARY KEY NOT NULL,
   "chapter_name" varchar,
   "created_at" timestamp DEFAULT (now()),
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -35,7 +41,7 @@ CREATE TABLE "chapters" (
 CREATE TABLE "question_chapter" (
   "id" SERIAL PRIMARY KEY,
   "question_id" integer references questions(id) on delete restrict,
-  "chapter" integer references chapters(chapter) on delete restrict,
+  "chapter_id" integer references chapters(id) on delete restrict,
   "created_at" timestamp DEFAULT (now()),
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -46,6 +52,14 @@ CREATE TABLE "question_textbook" (
   "textbook_id" integer references textbooks(id) on delete restrict,
   "page" integer,
   -- "edition" varchar,
+  "created_at" timestamp DEFAULT (now()),
+  "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE "question_skill" (
+  "id" SERIAL PRIMARY KEY,
+  "question_id" integer references questions(id) on delete restrict,
+  "skill_id" integer references skills(id) on delete restrict,
   "created_at" timestamp DEFAULT (now()),
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
