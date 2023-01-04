@@ -19,7 +19,19 @@
     <!-- list chapter with card -->
     <div class="card-area m-3 mb-3">
         <div class="row row-cols-1 row-cols-md-1 g-3 m-2 mb-3 ">
-            <?php include 'sqlexe.php'?>
+            <?php 
+                require_once('class.php');
+                $connection = new db_connection;
+                $sql = '
+                    SELECT id, chapter_name 
+                    FROM chapters
+                ';
+                $connection->sql_query($sql);
+                foreach($connection->result as $row){
+                    $connection->echo_chapter_list($row);
+                }
+                $connection->close_connection();
+            ?>
         </div>
     </div>
 </div>
