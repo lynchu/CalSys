@@ -8,6 +8,6 @@ UPDATE questions
     SET difficulty = input_difficulty
     WHERE id = input_id;
 
-/* adding skill */
+/* adding skill 
 INSERT INTO question_skill (question_id, skill_id, created_at, updated_at)
-
+*/
