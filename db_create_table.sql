@@ -17,10 +17,10 @@ CREATE TABLE "questions" (
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE "skills" (
-  "id" SERIAL PRIMARY KEY,
-  "skill_name" text
-);
+-- CREATE TABLE "skills" (
+--   "id" SERIAL PRIMARY KEY,
+--   "skill_name" text
+-- );
 
 CREATE TABLE "textbooks" (
   "id" SERIAL PRIMARY KEY,
@@ -56,6 +56,7 @@ CREATE TABLE "question_textbook" (
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+/*
 CREATE TABLE "question_skill" (
   "id" SERIAL PRIMARY KEY,
   "question_id" integer references questions(id) on delete restrict,
@@ -63,6 +64,7 @@ CREATE TABLE "question_skill" (
   "created_at" timestamp DEFAULT (now()),
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+*/
 
 -- -- to reset the many-to-many table attributes
 -- drop table question_textbook, question_chapter;
