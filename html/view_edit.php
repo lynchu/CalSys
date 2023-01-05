@@ -22,7 +22,7 @@
     $connection->sql_query($questions_sql);
     $question = $connection->result;
     $question = $question[0];
-    print_r($question);
+    //print_r($question);
     //$connection->sql_query($sql);
 ?>
 
@@ -36,11 +36,14 @@
 
     <div class="col-md-7 col-lg-10">
         <h4 class="mb-3">Information about the Question</h4>
-        <form class="needs-validation" novalidate method="post" action="edit_save.php">
+        <!--<form class="needs-validation" novalidate method="post" action="edit_save.php?id=".$ques_id>-->
             <?php
                 echo '
-                    <input type="hidden" value="'.$question->id.'">
+                    <form class="needs-validation" novalidate method="post" action="edit_save.php?id='.$ques_id.'">
                 ';
+                /*echo '
+                    <input type="hidden" value="'.$question->id.'">
+                ';*/
             ?>
             <div class="row g-3">
 
@@ -114,8 +117,10 @@
 
                 <div class="col-sm-2">
                     <label for="page" class="form-label">Page</label>
-                    <input type="number" min="0" class="form-control" name="page" id="page" placeholder="Optional" value="<?php $question->page?>">
-                    <!--<small class="text-muted">Number only</small>-->
+                    <?php
+                        echo '<input type="number" min="0" class="form-control" name="page" id="page" placeholder="" value="'.$question->page.'">';
+                    ?>
+                    <small class="text-muted">Optional</small>
                 </div>
                 <!--<div class="col-md-3">
                     <label for="ISBN13" class="form-label">ISBN 10</label>
