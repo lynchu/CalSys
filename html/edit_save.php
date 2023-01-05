@@ -59,6 +59,7 @@ if($textbook_id != -1){
             WHERE question_id = '.$question_id.';
         ';
     }
+    $connection->sql_query($question_textbook_sql);
 }
 else{
     if(!empty($textbook_qID)){
@@ -67,6 +68,7 @@ else{
             SET textbook_id = NULL
             WHERE question_id = '.$question_id.';
         ';
+        $connection->sql_query($question_textbook_sql);
     }
 }
 /*$question_textbook_sql = '
@@ -74,7 +76,6 @@ else{
     SET textbook_id = '.$textbook_id.', page = '.$page.'
     WHERE question_id = '.$question_id.';
 ';*/
-$connection->sql_query($question_textbook_sql);
 
 $url = 'questions_list.php?chapter=-1';
 if (isset($url)) Header("Location: $url");

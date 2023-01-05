@@ -14,7 +14,8 @@
                 SELECT questions.id, questions.tex_content, question_chapter.chapter_id, chapters.chapter_name, questions.updated_at
                 FROM question_chapter, questions, chapters
                 where question_chapter.question_id = questions.id
-                and question_chapter.chapter_id = chapters.id;
+                and question_chapter.chapter_id = chapters.id
+                order by questions.id;
             ';
         } else{
             $sql = '
@@ -22,7 +23,8 @@
                 FROM question_chapter, questions, chapters
                 WHERE question_chapter.chapter_id = '.$chapter_id.'
                 and question_chapter.question_id = questions.id
-                and question_chapter.chapter_id = chapters.id;
+                and question_chapter.chapter_id = chapters.id
+                order by questions.id;
             ';
         }
         $connection->sql_query($sql);
