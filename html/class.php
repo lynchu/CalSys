@@ -56,17 +56,23 @@ class db_connection{
         $html2 = '
         <div class="row row-cols-1 row-cols-md-1 m-2 mb-3 card text-center">
             <div class="card-header">
-                Question '.$row->id.'
+                Question ID '.$row->id.'
             </div>
             <div class="card-body">
                 <h5 class="card-title">'.$row->chapter_name.'</h5>
                 <p class="card-text">'.$row->tex_content.'</p>
             </div>
             <div class="card-body">
-                <div class="d-grid gap-2 col-6 mx-auto">
-                    <button class="btn btn-danger " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal'.$row->id.'">
+                <div class="gap-2 mx-auto">
+                    <a href="view_edit.php?id='.$row->id.'">
+                        <button class="col-1 btn btn-primary  " type="button">
+                            Edit
+                        </button>
+                    </a>
+                    <button class="col-1 btn btn-danger " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal'.$row->id.'">
                         Delete
                     </button>
+
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal'.$row->id.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -84,6 +90,7 @@ class db_connection{
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
             <div class="card-footer text-muted">

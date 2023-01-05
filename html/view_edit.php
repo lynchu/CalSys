@@ -4,28 +4,49 @@
 <body>
 
 <?php
+    //echo $_REQUEST['id'];
+    $ques_id = $_REQUEST['id'];
     require_once('class.php');
     $connection = new db_connection;
+    $questions_sql = '
+    select questions.id, questions.tex_content, questions.difficulty, 
+        question_chapter.chapter_id, chapters.chapter_name,
+        question_textbook.textbook_id, textbooks.book_name, question_textbook.page
+    from questions 
+        left join question_chapter on questions.id = question_chapter.question_id
+        left join question_textbook on questions.id = question_textbook.question_id
+        left join chapters on question_chapter.chapter_id = chapters.id
+        left join textbooks on question_textbook.textbook_id = textbooks.id
+    where questions.id = '.$ques_id.';
+    ';
+    $connection->sql_query($questions_sql);
+    $question = $connection->result;
+    $question = $question[0];
+    print_r($question);
+    //$connection->sql_query($sql);
 ?>
 
 <div class="container">
     <!-- chapter list title -->
     <div class="py-5 text-center">
         <img src="https://cdn-icons-png.flaticon.com/512/1774/1774106.png" width="50" height="50" alt="">
-        <h2>Create Question</h2>
+        <h2>Edit Question</h2>
         <p class="lead">為微積分題庫系統留下你的足跡吧！</p>
     </div>
 
     <div class="col-md-7 col-lg-10">
         <h4 class="mb-3">Information about the Question</h4>
-        
-        <form class="needs-validation" novalidate method="post" action="submit_question.php">          
+        <form class="needs-validation" novalidate method="post" action="edit_save.php">
+            <?php
+                echo '
+                    <input type="hidden" value="'.$question->id.'">
+                ';
+            ?>
             <div class="row g-3">
 
                 <div class="col-md-6">
                     <label for="chapter" class="form-label">Chapter</label>
                     <select class="form-select" name="chapter" id="chapter" required>
-                        <option value="">Choose...</option> 
                         <!-- chapter list -->
                         <?php 
                             $sql = '
@@ -33,8 +54,19 @@
                                 FROM chapters
                             ';
                             $connection->sql_query($sql);
+                            $selected = '
+                                <option value="'.$question->chapter_id.'" selected>
+                                    ch'.$question->chapter_id.'. '.$question->chapter_name.'
+                                </option>
+                            ';
+                            //echo $selected;
                             foreach($connection->result as $row){
-                                $connection->chapter_dropdown($row);
+                                if($row->id != $question->chapter_id){
+                                    $connection->chapter_dropdown($row);
+                                }
+                                else{
+                                    echo $selected;
+                                }
                             }
                         ?>
                     </select>
@@ -45,13 +77,13 @@
 
                 <div class="col-md-2">
                     <label for="difficulty" class="form-label">Difficulty</label>
-                    <select class="form-select" name="difficulty" id="difficulty" required>
-                        <option value="">Choose...</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <select value="<?php $question->difficulty ?>" class="form-select" name="difficulty" id="difficulty" required>
+                        <?php
+                            for($i=1; $i<=5; $i++){
+                                if($question->difficulty == $i) echo "<option selected>".$i."</option>";
+                                else echo "<option>".$i."</option>";
+                            }
+                        ?>
                     </select>
                     <div class="invalid-feedback">
                         Please select difficulty.
@@ -61,14 +93,14 @@
                 <div class="col-md-7">
                     <label for="TextbookName" class="form-label">Textbook</label>
                     <!--<select class="form-control select2">-->
-                    <select name="TextbookName" class="form-select" id="TextbookName" required>
+                    <select name="textbook_id" class="form-select" id="textbook_id" required>
                     <!--<select class="form-select" id="TextbookName" required>-->
-                        <option value="">Choose...</option>
                         <?php 
                             $sql = '
                                 SELECT id, book_name 
                                 FROM textbooks
                             ';
+                            echo "<option value=-1></option>";
                             $connection->sql_query($sql);
                             foreach($connection->result as $row){
                                 $connection->textbook_dropdown($row);
@@ -82,7 +114,7 @@
 
                 <div class="col-sm-2">
                     <label for="page" class="form-label">Page</label>
-                    <input type="number" min="0" class="form-control" name="page" id="page" placeholder="Optional" value="">
+                    <input type="number" min="0" class="form-control" name="page" id="page" placeholder="Optional" value="<?php $question->page?>">
                     <!--<small class="text-muted">Number only</small>-->
                 </div>
                 <!--<div class="col-md-3">
@@ -100,7 +132,12 @@
                 <h4 class="mb-3">Question Description</h4>
                 <div class="row gy-1">
                     <div class="col-ms">
-                        <textarea type="text" class="form-control form-control-lg" name="ques_text" id="ques_text" placeholder="" required></textarea>
+                        <?php 
+                            echo '
+                                <textarea type="text" class="form-control form-control-lg" name="ques_text" id="ques_text" placeholder="" required>'.$question->tex_content.'
+                                </textarea>
+                            ';
+                        ?>
                         <small class="text-muted">Latex only</small>
                         <div class="invalid-feedback">
                             Please enter question description
@@ -110,7 +147,33 @@
             </div>
 
             <hr class="my-4">
-            <button class="w-100 btn btn-primary btn-lg" type="submit">Submit</button>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="#" class="col-2 btn btn-secondary me-md-2 " onClick="javascript :history.back(-1);">
+                    Cancel
+                </a>
+                <button class="col-2 btn btn-primary " type="button" data-bs-toggle="modal" data-bs-target="#save">
+                    Save
+                </button>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="save" tabindex="-1" aria-labelledby="saveLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="saveLabel">Are you sure you want to update this question?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <a href="delete_question.php?id='.$row->id.'&chapter='.$chapter.'">
+                                <button type="submit" class="btn btn-primary">Yes</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </div>
