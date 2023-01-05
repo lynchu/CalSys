@@ -1,4 +1,4 @@
-INSERT INTO questions(text_content, created_at, updated_at, difficulty)
+INSERT INTO questions(tex_content, created_at, updated_at, difficulties)
 VALUES("XX input_text_content xx", "XX real_createdtime xx", "XX real_updatedtime xx", "xx input_difficulty xx");
 --question id and other data from php--
 INSERT INTO question_chapter(question_id, chapter_id, created_at, updated_at)

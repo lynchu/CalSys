@@ -70,6 +70,19 @@ class db_connection{
         echo $html2;
     }
 
+    public function chapter_dropdown($row){
+        $html = '
+            <option value="'.$row->id.'" > ch'.$row->id.'. '.$row->chapter_name.'</option>
+        ';
+        echo $html;
+    }
+
+    public function textbook_dropdown($row){
+        $html = '
+            <option value="'.$row->id.'" >'.$row->book_name.'</option>';
+        echo $html;
+    }
+
     public function close_connection(){
         $this->conn = NULL;
     }
