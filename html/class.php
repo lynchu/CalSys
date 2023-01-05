@@ -31,6 +31,7 @@ class db_connection{
 			$this->result = $stmt->fetchAll(PDO::FETCH_CLASS);
 		} catch(PDOException $e) {
 			echo "Error: " . $e->getMessage();
+            die($e->getMessage());
 		}
 	}
 
@@ -41,26 +42,49 @@ class db_connection{
                 <div class="card-body bg-image hover-overlay ripple shadow-1-strong rounded" data-mdb-ripple-color="light">
                     <h6 class="card-title"> Chapter '.$row->id.'</h4>
                     <h5 class="card-text">'.$row->chapter_name.'</h3>
-                    <a href="./questions_list.php?chapter='.$row->id.'" class="btn btn-primary stretched-link ">
-                        Card link
+                    <a href="./questions_list.php?chapter='.$row->id.'" class="card-link stretched-link">
                     </a>
                 </div>
             </div>';
         echo $html;
     }
 
-    public function echo_questions($row){
+    public function echo_questions($row, $chapter){
         // print_r($row);
         // echo '<br>';
+        // row row-cols-1 row-cols-md-1 g-3 m-2 mb-3
         $html2 = '
-        <div class="card text-center">
+        <div class="row row-cols-1 row-cols-md-1 m-2 mb-3 card text-center">
             <div class="card-header">
                 Question '.$row->id.'
             </div>
             <div class="card-body">
                 <h5 class="card-title">'.$row->chapter_name.'</h5>
                 <p class="card-text">'.$row->tex_content.'</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button class="btn btn-danger " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal'.$row->id.'">
+                        Delete
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal'.$row->id.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <a href="delete_question.php?id='.$row->id.'&chapter='.$chapter.'">
+                                        <button type="button" class="btn btn-danger">Delete</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="card-footer text-muted">
                 Updated at "'.$row->updated_at.'"

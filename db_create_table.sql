@@ -56,6 +56,34 @@ CREATE TABLE "question_textbook" (
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+
+ALTER TABLE question_chapter
+DROP CONSTRAINT question_chapter_question_id_fkey;
+
+ALTER TABLE question_chapter
+ADD FOREIGN KEY (question_id) REFERENCES questions(id)
+ON DELETE CASCADE;
+
+ALTER TABLE question_chapter
+DROP CONSTRAINT question_chapter_chapter_id_fkey;
+
+ALTER TABLE question_chapter
+ADD FOREIGN KEY (chapter_id) REFERENCES chapters(id)
+ON DELETE CASCADE;
+
+ALTER TABLE question_textbook
+DROP CONSTRAINT question_textbook_question_id_fkey;
+
+ALTER TABLE question_textbook
+ADD FOREIGN KEY (question_id) REFERENCES questions(id)
+ON DELETE CASCADE;
+
+ALTER TABLE question_textbook
+DROP CONSTRAINT question_textbook_textbook_id_fkey;
+
+ALTER TABLE question_textbook
+ADD FOREIGN KEY (textbook_id) REFERENCES textbooks(id)
+ON DELETE CASCADE;
 /*
 CREATE TABLE "question_skill" (
   "id" SERIAL PRIMARY KEY,

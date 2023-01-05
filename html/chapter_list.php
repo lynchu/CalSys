@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php include 'head.php'?>
+<style>
+    .card:hover {
+        background-color: #eee;
+    }
+</style>
 <body>
 
 <div class="container">
@@ -19,6 +24,15 @@
     <!-- list chapter with card -->
     <div class="card-area m-3 mb-3">
         <div class="row row-cols-1 row-cols-md-1 g-3 m-2 mb-3 ">
+            <div class="card mb-3">
+                <div class="card-body bg-image hover-overlay ripple shadow-1-strong rounded" data-mdb-ripple-color="light">
+                    <h6 class="card-title"> All Chapter</h4>
+                    <h5 class="card-text">All Questions</h3>
+                    <a href="./questions_list.php?chapter=-1" class="card-link stretched-link">
+                    </a>
+                </div>
+            </div>
+
             <?php 
                 require_once('class.php');
                 $connection = new db_connection;

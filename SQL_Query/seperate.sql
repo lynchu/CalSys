@@ -1,8 +1,9 @@
-insert into questions(id, tex_content)
-select id, tex_content
-from original_data;
+insert into questions(tex_content)
+select tex_content
+from original_data
+ORDER BY id;
 
-select * from original_data;
+select * from questions;
 
 ALTER TABLE original_data 
 RENAME COLUMN chpater TO chapter;
