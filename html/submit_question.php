@@ -52,5 +52,8 @@ if(empty($page)){
     ";
 }
 $connection->sql_query($question_textbook_sql);
+$url = 'questions_list.php?chapter=-1';
+if (isset($url)) Header("Location: $url");
+else Header("Location: index.php");
 //}
 ?>

@@ -4,8 +4,6 @@
 <body>
 
 <div class="container">
-    <!-- chapter name -->
-
     <!-- list chapter with card -->
     <?php
         require_once('class.php');
@@ -28,6 +26,15 @@
             ';
         }
         $connection->sql_query($sql);
+        $chapter = $chapter_id;
+        if($chapter_id==-1) $chapter = 'ALL';
+        $title = '
+            <!-- chapter name -->
+            <div class="px-4 py-5 my-5 text-center">
+                <h1 class="display-5 fw-bold">Chapter '.$chapter.' </h1>
+            </div>
+        ';
+        echo $title;
         foreach($connection->result as $row){
             $connection->echo_questions($row, $chapter_id);
             // print_r($row);

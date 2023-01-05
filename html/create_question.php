@@ -110,7 +110,7 @@
             </div>
 
             <hr class="my-4">
-            <button href=".\index.php" class="w-100 btn btn-primary btn-lg" type="submit">Submit</button>
+            <button class="w-100 btn btn-primary btn-lg" type="submit">Submit</button>
         </form>
     </div>
 </div>
